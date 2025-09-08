@@ -6,12 +6,12 @@
     <title>Cyberpunk Clock</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Varela Round', sans-serif;
             margin: 0;
             overflow: hidden;
             display: flex;
@@ -38,6 +38,7 @@
         }
 
         .left-panel {
+            flex: 2;
             justify-content: center;
             align-items: flex-start;
             border-right: 2px solid white;
@@ -48,26 +49,8 @@
             align-items: center;
         }
 
-        .right-panel::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            width: 10px;
-            height: 10px;
-            border: 2px solid white;
-        }
-        .right-panel::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 10px;
-            height: 10px;
-            background: white;
-        }
-
         #time {
+            font-family: 'Orbitron', sans-serif;
             font-size: 12vw;
             font-weight: 900;
             line-height: 1;
@@ -119,7 +102,7 @@
 
         function updateTime() {
             const now = new Date();
-            const timeString = now.toTimeString().split(' ')[0];
+            const timeString = now.toTimeString().slice(0, 5);
             document.getElementById('time').textContent = timeString;
 
             const day = now.getDate();
