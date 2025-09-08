@@ -78,6 +78,88 @@
         sup {
             font-size: 0.6em;
         }
+
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .settings-overlay.hidden {
+            display: none;
+        }
+
+        .settings-box {
+            background: #111;
+            padding: 2em;
+            border: 1px solid #fff;
+            text-align: center;
+            min-width: 300px;
+            max-width: 90vw;
+        }
+
+        .settings-box h2 {
+            margin-top: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .input-group {
+            margin-bottom: 1em;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        .input-group input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.5em;
+            background: #000;
+            border: 1px solid #fff;
+            color: #fff;
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        .settings-box button {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 0.75em 1.5em;
+            font-family: 'Varela Round', sans-serif;
+            cursor: pointer;
+            margin: 0.5em;
+        }
+
+        .settings-box button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            border: 0.15em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin .75s linear infinite;
+            margin-left: 0.5em;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -96,7 +178,26 @@
         </div>
     </div>
 
+    <div id="settings-overlay" class="settings-overlay hidden">
+        <div class="settings-box">
+            <h2>Settings</h2>
+            <div class="input-group">
+                <label for="lat-input">Latitude:</label>
+                <input type="text" id="lat-input">
+            </div>
+            <div class="input-group">
+                <label for="lon-input">Longitude:</label>
+                <input type="text" id="lon-input">
+            </div>
+            <button id="get-location-btn">Use Current Location <span id="location-spinner" class="spinner hidden"></span></button>
+            <button id="close-settings-btn">Save &amp; Close</button>
+        </div>
+    </div>
+
     <script>
+        let currentLat = localStorage.getItem('lat') || "51.5072";
+        let currentLon = localStorage.getItem('lon') || "-0.1276";
+
         const API_URL = "https://api.open-meteo.com/v1/forecast";
         const DAILY_VARS = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_hours";
         const FORECAST_DAYS = "1";
@@ -140,14 +241,11 @@
         }
 
         async function fetchWeather() {
-            // Default to London, UK. For user's location, Geolocation API would be needed.
-            const lat = "51.5072";
-            const lon = "-0.1276";
-            const timezone = "Europe/London";
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
             const params = new URLSearchParams({
-                latitude: lat,
-                longitude: lon,
+                latitude: currentLat,
+                longitude: currentLon,
                 daily: DAILY_VARS,
                 timezone: timezone,
                 forecast_days: FORECAST_DAYS,
@@ -192,6 +290,69 @@
             fetchWeather();
             // Fetch weather every hour
             setInterval(fetchWeather, 3600000);
+
+            // Long press for settings
+            let pressTimer;
+
+            function startPress(e) {
+                // Don't trigger on settings modal or its children
+                if (e.target.closest('#settings-overlay')) {
+                    return;
+                }
+                pressTimer = window.setTimeout(function () {
+                    const settingsOverlay = document.getElementById('settings-overlay');
+                    document.getElementById('lat-input').value = currentLat;
+                    document.getElementById('lon-input').value = currentLon;
+                    settingsOverlay.classList.remove('hidden');
+                }, 1000); // 1 second
+            }
+
+            function cancelPress() {
+                clearTimeout(pressTimer);
+            }
+
+            const body = document.body;
+            body.addEventListener("mousedown", startPress);
+            body.addEventListener("touchstart", startPress, { passive: true });
+            body.addEventListener("mouseup", cancelPress);
+            body.addEventListener("mouseleave", cancelPress);
+            body.addEventListener("touchend", cancelPress);
+            body.addEventListener("touchcancel", cancelPress);
+
+            // Settings UI event listeners
+            document.getElementById('close-settings-btn').addEventListener('click', () => {
+                const lat = document.getElementById('lat-input').value;
+                const lon = document.getElementById('lon-input').value;
+
+                if (lat && lon) {
+                    currentLat = lat;
+                    currentLon = lon;
+                    localStorage.setItem('lat', lat);
+                    localStorage.setItem('lon', lon);
+                    fetchWeather();
+                }
+                document.getElementById('settings-overlay').classList.add('hidden');
+            });
+
+            document.getElementById('get-location-btn').addEventListener('click', () => {
+                const spinner = document.getElementById('location-spinner');
+                if ('geolocation' in navigator) {
+                    spinner.classList.remove('hidden');
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const lat = position.coords.latitude.toFixed(4);
+                        const lon = position.coords.longitude.toFixed(4);
+                        document.getElementById('lat-input').value = lat;
+                        document.getElementById('lon-input').value = lon;
+                        spinner.classList.add('hidden');
+                    }, error => {
+                        console.error("Geolocation error:", error);
+                        alert("Could not get location. Please enter manually or check permissions.");
+                        spinner.classList.add('hidden');
+                    });
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
+            });
         });
     </script>
 </body>
