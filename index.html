@@ -74,6 +74,9 @@
             line-height: 1.5;
             font-weight: 400;
         }
+        sup {
+            font-size: 0.6em;
+        }
     </style>
 </head>
 <body>
@@ -86,8 +89,8 @@
             <img id="weather-icon" src="" alt="Weather Icon">
             <div class="weather-details">
                 <div id="precip-chance">--% (--h)</div>
-                <div id="temp-min">Min: --°</div>
-                <div id="temp-max">Max: --°</div>
+                <div id="temp-min"><small>Min:</small> <b>--°</b></div>
+                <div id="temp-max"><small>Max:</small> <b>--°</b></div>
             </div>
         </div>
     </div>
@@ -115,8 +118,8 @@
                     default: suffix = "th";
                 }
             }
-            const dateString = `${day}${suffix} ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
-            document.getElementById('date').textContent = dateString.toUpperCase();
+            const dateString = `${day}<sup>${suffix}</sup> ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
+            document.getElementById('date').innerHTML = dateString.toUpperCase();
         }
 
         function getWeatherIconName(code) {
@@ -169,8 +172,8 @@
                 const precipHours = daily.precipitation_hours[0];
 
                 document.getElementById('precip-chance').textContent = `${precipChance}% (${precipHours}h)`;
-                document.getElementById('temp-min').textContent = `Min: ${tempMin}°`;
-                document.getElementById('temp-max').textContent = `Max: ${tempMax}°`;
+                document.getElementById('temp-min').innerHTML = `<small>Min:</small> <b>${tempMin}°</b>`;
+                document.getElementById('temp-max').innerHTML = `<small>Max:</small> <b>${tempMax}°</b>`;
 
                 const iconName = getWeatherIconName(weatherCode);
                 const iconUrl = `${ICON_BASE_URL}${iconName}`;
