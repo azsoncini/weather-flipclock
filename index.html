@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Cyberpunk Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .container {
+            display: flex;
+            width: 95vw;
+            height: 90vh;
+            position: relative;
+            border: 2px solid white;
+        }
+
+        .left-panel, .right-panel {
+            flex: 1;
+            padding: 2em;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .left-panel {
+            justify-content: center;
+            align-items: flex-start;
+            border-right: 2px solid white;
+        }
+        
+        .right-panel {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid white;
+        }
+        .right-panel::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            background: white;
+        }
+
+        #time {
+            font-size: 12vw;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        #date {
+            font-size: 2.5vw;
+            font-weight: 400;
+            margin-top: 1em;
+            letter-spacing: 2px;
+        }
+
+        #weather-icon {
+            width: 50%;
+            filter: invert(1);
+            margin-bottom: 1em;
+        }
+
+        .weather-details {
+            font-size: 2.2vw;
+            width: 100%;
+            text-align: center;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div id="time">--:--:--</div>
+            <div id="date">----------</div>
+        </div>
+        <div class="right-panel">
+            <img id="weather-icon" src="" alt="Weather Icon">
+            <div class="weather-details">
+                <div id="precip-chance">--% (--h)</div>
+                <div id="temp-min">Min: --°</div>
+                <div id="temp-max">Max: --°</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://api.open-meteo.com/v1/forecast";
+        const DAILY_VARS = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_hours";
+        const FORECAST_DAYS = "1";
+        const ICON_BASE_URL = "https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/";
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toTimeString().split(' ')[0];
+            document.getElementById('time').textContent = timeString;
+
+            const day = now.getDate();
+            let suffix;
+            if (day > 3 && day < 21) {
+                suffix = 'th';
+            } else {
+                switch (day % 10) {
+                    case 1:  suffix = "st"; break;
+                    case 2:  suffix = "nd"; break;
+                    case 3:  suffix = "rd"; break;
+                    default: suffix = "th";
+                }
+            }
+            const dateString = `${day}${suffix} ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
+            document.getElementById('date').textContent = dateString.toUpperCase();
+        }
+
+        function getWeatherIconName(code) {
+            const iconMap = {
+                0: "wi-day-sunny.svg", 1: "wi-day-cloudy.svg", 2: "wi-cloudy.svg",
+                3: "wi-cloudy.svg", 45: "wi-fog.svg", 48: "wi-fog.svg",
+                51: "wi-sprinkle.svg", 53: "wi-sprinkle.svg", 55: "wi-sprinkle.svg",
+                56: "wi-sleet.svg", 57: "wi-sleet.svg", 61: "wi-day-rain.svg",
+                63: "wi-rain.svg", 65: "wi-rain.svg", 66: "wi-sleet.svg",
+                67: "wi-sleet.svg", 71: "wi-snow.svg", 73: "wi-snow.svg",
+                75: "wi-snow.svg", 77: "wi-snow.svg", 80: "wi-day-showers.svg",
+                81: "wi-showers.svg", 82: "wi-showers.svg", 85: "wi-day-snow.svg",
+                86: "wi-day-snow.svg", 95: "wi-thunderstorm.svg",
+                96: "wi-storm-showers.svg", 99: "wi-storm-showers.svg",
+            };
+            return iconMap[code] || "wi-na.svg";
+        }
+
+        async function fetchWeather() {
+            // Default to London, UK. For user's location, Geolocation API would be needed.
+            const lat = "51.5072";
+            const lon = "-0.1276";
+            const timezone = "Europe/London";
+
+            const params = new URLSearchParams({
+                latitude: lat,
+                longitude: lon,
+                daily: DAILY_VARS,
+                timezone: timezone,
+                forecast_days: FORECAST_DAYS,
+            });
+            const url = `${API_URL}?${params}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.error) {
+                    console.error("Weather API Error:", data.reason);
+                    return;
+                }
+
+                const daily = data.daily;
+                const weatherCode = daily.weather_code[0];
+                const tempMax = Math.round(daily.temperature_2m_max[0]);
+                const tempMin = Math.round(daily.temperature_2m_min[0]);
+                const precipChance = daily.precipitation_probability_max[0];
+                const precipHours = daily.precipitation_hours[0];
+
+                document.getElementById('precip-chance').textContent = `${precipChance}% (${precipHours}h)`;
+                document.getElementById('temp-min').textContent = `Min: ${tempMin}°`;
+                document.getElementById('temp-max').textContent = `Max: ${tempMax}°`;
+
+                const iconName = getWeatherIconName(weatherCode);
+                const iconUrl = `${ICON_BASE_URL}${iconName}`;
+                document.getElementById('weather-icon').src = iconUrl;
+
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            fetchWeather();
+            // Fetch weather every hour
+            setInterval(fetchWeather, 3600000);
+        });
+    </script>
+</body>
+</html>
