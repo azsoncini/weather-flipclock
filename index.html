@@ -283,6 +283,18 @@
             }
         }
 
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             updateTime();
             setInterval(updateTime, 1000);
@@ -291,15 +303,18 @@
             // Fetch weather every hour
             setInterval(fetchWeather, 3600000);
 
-            // Long press for settings
+            // Long press for settings, tap for fullscreen
             let pressTimer;
+            let isLongPress = false;
 
             function startPress(e) {
                 // Don't trigger on settings modal or its children
                 if (e.target.closest('#settings-overlay')) {
                     return;
                 }
+                isLongPress = false;
                 pressTimer = window.setTimeout(function () {
+                    isLongPress = true;
                     const settingsOverlay = document.getElementById('settings-overlay');
                     document.getElementById('lat-input').value = currentLat;
                     document.getElementById('lon-input').value = currentLon;
@@ -318,6 +333,12 @@
             body.addEventListener("mouseleave", cancelPress);
             body.addEventListener("touchend", cancelPress);
             body.addEventListener("touchcancel", cancelPress);
+
+            body.addEventListener('click', e => {
+                if (isLongPress) return;
+                if (e.target.closest('#settings-overlay')) return;
+                toggleFullScreen();
+            });
 
             // Settings UI event listeners
             document.getElementById('close-settings-btn').addEventListener('click', () => {
