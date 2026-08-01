@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Weather Clock</title>
+    <title>Weather Flip Clock</title>
     <link rel="icon" href="icon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Offside&family=Outfit:wght@800;900&family=Roboto+Condensed:wght@700;800;900&family=Zen+Dots&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Varela Round', sans-serif;
+            font-family: 'Roboto Condensed', sans-serif;
             margin: 0;
             overflow: hidden;
             display: flex;
@@ -24,59 +29,235 @@
 
         .container {
             display: flex;
-            width: 95vw;
+            width: 100%;
             height: 90vh;
+            padding-left: 100px;
+            padding-right: 100px;
+            gap: 50px;
             position: relative;
-        }
-
-        .left-panel, .right-panel {
-            flex: 1;
-            padding: 2em;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            align-items: center;
         }
 
         .left-panel {
-            flex: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             justify-content: center;
             align-items: center;
         }
-        
+
         .right-panel {
+            flex: 0 0 auto;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            position: relative;
             justify-content: center;
             align-items: center;
         }
 
-        #time {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 12vw;
-            font-weight: 900;
-            line-height: 1;
+        .clock-container {
+            display: flex;
+            gap: 2.5vw;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
         }
 
-        #date {
-            font-size: 2.5vw;
-            font-weight: 400;
-            margin-top: 1em;
-            letter-spacing: 2px;
+        .clock-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .top-label {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.2vw;
+            font-weight: 700;
+            color: #b5b5b7;
+            margin-bottom: 0.8vw;
+            letter-spacing: 0.5px;
+        }
+
+        .flip-clock-card {
+            position: relative;
+            width: 32vw;
+            height: 32vw;
+            background: #1c1c1e;
+            border-radius: 3vw;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 27vw;
+            color: #b5b5b7;
+            perspective: 1000px;
+        }
+
+        .card-face {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            text-align: center;
+            background: #1c1c1e;
+            user-select: none;
+            backface-visibility: hidden;
+            padding-left: 1vw;
+            padding-right: 1vw;
+        }
+
+        .card-face.top {
+            top: 0;
+            border-top-left-radius: 3vw;
+            border-top-right-radius: 3vw;
+            line-height: 32vw;
+        }
+
+        .card-face.bottom {
+            bottom: 0;
+            border-bottom-left-radius: 3vw;
+            border-bottom-right-radius: 3vw;
+            line-height: 0vw;
+        }
+
+        .flip-clock-card .top-back { z-index: 1; }
+        .flip-clock-card .bottom-back { z-index: 2; }
+        .flip-clock-card .top-front { z-index: 3; transform-origin: bottom; }
+        .flip-clock-card .bottom-front { z-index: 4; transform-origin: top; transform: rotateX(90deg); }
+
+        .flip-clock-card.flipping .top-front {
+            animation: flipTopFront 0.25s ease-in forwards;
+        }
+
+        .flip-clock-card.flipping .bottom-front {
+            animation: flipBottomFront 0.25s ease-out 0.25s forwards;
+        }
+
+        @keyframes flipTopFront {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-90deg); }
+        }
+
+        @keyframes flipBottomFront {
+            0% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip-clock-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #000;
+            z-index: 10;
+            transform: translateY(-50%);
+        }
+
+        .seconds-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.8vw;
+        }
+
+        .seconds-card {
+            position: relative;
+            width: 8vw;
+            height: 5.8vw;
+            background: #1c1c1e;
+            border-radius: 1vw;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 5vw;
+            color: #b5b5b7;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            perspective: 500px;
+        }
+
+        .seconds-card .card-face {
+            padding-left: 0.3vw;
+            padding-right: 0.3vw;
+        }
+
+        .seconds-card .card-face.top {
+            border-top-left-radius: 1vw;
+            border-top-right-radius: 1vw;
+            line-height: 5.8vw;
+        }
+
+        .seconds-card .card-face.bottom {
+            border-bottom-left-radius: 1vw;
+            border-bottom-right-radius: 1vw;
+            line-height: 0vw;
+        }
+
+        .seconds-card .top-back { z-index: 1; }
+        .seconds-card .bottom-back { z-index: 2; }
+        .seconds-card .top-front { z-index: 3; transform-origin: bottom; }
+        .seconds-card .bottom-front { z-index: 4; transform-origin: top; transform: rotateX(90deg); }
+
+        .seconds-card.flipping .top-front {
+            animation: flipTopFront 0.2s ease-in forwards;
+        }
+
+        .seconds-card.flipping .bottom-front {
+            animation: flipBottomFront 0.2s ease-out 0.2s forwards;
+        }
+
+        .seconds-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #000;
+            z-index: 10;
+            transform: translateY(-50%);
+        }
+
+        .seconds-container.hidden {
+            display: none;
         }
 
         #weather-icon {
-            width: 75%;
+            width: 120px;
             filter: invert(1);
-            margin-bottom: 1em;
+            margin-bottom: 0.5em;
         }
 
         .weather-details {
-            font-size: 3.75vw;
+            font-size: 2.2vw;
             width: 100%;
             text-align: center;
-            line-height: 1.25;
+            line-height: 1.3;
             font-weight: 400;
+            white-space: nowrap;
         }
-        sup {
-            font-size: 0.6em;
+
+        #wind-info {
+            font-size: 1.8vw;
+            margin-top: 0.6em;
+            color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25em;
+        }
+
+        .material-symbols-outlined {
+            font-size: 1.1em;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .wind-arrow {
+            transition: transform 0.5s ease-in-out;
         }
 
         .settings-overlay {
@@ -85,65 +266,65 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
-        .settings-overlay.hidden {
-            display: none;
-        }
+        .settings-overlay.hidden { display: none; }
 
         .settings-box {
             background: #111;
             padding: 2em;
-            border: 1px solid #fff;
+            border: 1px solid #333;
+            border-radius: 12px;
             text-align: center;
             min-width: 300px;
             max-width: 90vw;
+            color: #fff;
         }
 
-        .settings-box h2 {
-            margin-top: 0;
-            font-family: 'Orbitron', sans-serif;
-        }
+        .settings-box h2 { margin-top: 0; font-family: 'Roboto Condensed', sans-serif; }
 
-        .input-group {
-            margin-bottom: 1em;
-            text-align: left;
-        }
+        .input-group { margin-bottom: 1em; text-align: left; }
+        .input-group label { display: block; margin-bottom: 0.5em; font-size: 0.9em; }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5em;
-        }
-
-        .input-group input {
+        .input-group input[type="text"], .input-group select {
             box-sizing: border-box;
             width: 100%;
-            padding: 0.5em;
-            background: #000;
-            border: 1px solid #fff;
+            padding: 0.6em;
+            background: #222;
+            border: 1px solid #444;
             color: #fff;
-            font-family: 'Varela Round', sans-serif;
+            border-radius: 6px;
+            font-family: inherit;
         }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin-bottom: 1em;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .checkbox-group input { width: 1.2em; height: 1.2em; cursor: pointer; }
 
         .settings-box button {
-            background: #000;
+            background: #333;
             color: #fff;
-            border: 1px solid #fff;
+            border: none;
             padding: 0.75em 1.5em;
-            font-family: 'Varela Round', sans-serif;
+            border-radius: 6px;
+            font-family: inherit;
             cursor: pointer;
-            margin: 0.5em;
+            margin: 0.3em;
         }
 
-        .settings-box button:hover {
-            background: #fff;
-            color: #000;
-        }
+        .settings-box button:hover { background: #555; }
 
         .spinner {
             display: inline-block;
@@ -157,30 +338,69 @@
             margin-left: 0.5em;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- ESQUERDA: RELÓGIO FLIP -->
         <div class="left-panel">
-            <div id="time">--:--:--</div>
-            <div id="date">----------</div>
+            <div class="clock-container">
+                <!-- Horas -->
+                <div class="clock-column">
+                    <div id="date-label" class="top-label">00/00/0000</div>
+                    <div id="hours-card" class="flip-clock-card">
+                        <div class="card-face top top-back">00</div>
+                        <div class="card-face bottom bottom-back">00</div>
+                        <div class="card-face top top-front">00</div>
+                        <div class="card-face bottom bottom-front">00</div>
+                    </div>
+                </div>
+
+                <!-- Minutos + Segundos -->
+                <div class="clock-column">
+                    <div id="day-label" class="top-label">sábado</div>
+                    <div id="minutes-card" class="flip-clock-card">
+                        <div class="card-face top top-back">00</div>
+                        <div class="card-face bottom bottom-back">00</div>
+                        <div class="card-face top top-front">00</div>
+                        <div class="card-face bottom bottom-front">00</div>
+                    </div>
+
+                    <!-- Segundos -->
+                    <div id="seconds-container" class="seconds-container hidden">
+                        <div id="seconds-card" class="seconds-card">
+                            <div class="card-face top top-back">00</div>
+                            <div class="card-face bottom bottom-back">00</div>
+                            <div class="card-face top top-front">00</div>
+                            <div class="card-face bottom bottom-front">00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- DIREITA: CLIMA -->
         <div class="right-panel">
             <img id="weather-icon" src="" alt="Weather Icon">
             <div class="weather-details">
                 <div id="precip-chance">--% (--h)</div>
                 <div id="temp-min"><small>Min:</small> <b>--°</b></div>
                 <div id="temp-max"><small>Max:</small> <b>--°</b></div>
+                
+                <div id="wind-info">
+                    <span class="material-symbols-outlined">air</span>
+                    <span id="wind-arrow" class="material-symbols-outlined wind-arrow">navigation</span>
+                    <span id="wind-text">-- km/h (--)</span>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL SETTINGS -->
     <div id="settings-overlay" class="settings-overlay hidden">
         <div class="settings-box">
-            <h2>Settings</h2>
+            <h2>Configurações</h2>
             <div class="input-group">
                 <label for="lat-input">Latitude:</label>
                 <input type="text" id="lat-input">
@@ -189,39 +409,100 @@
                 <label for="lon-input">Longitude:</label>
                 <input type="text" id="lon-input">
             </div>
-            <button id="get-location-btn">Use Current Location <span id="location-spinner" class="spinner hidden"></span></button>
-            <button id="close-settings-btn">Save &amp; Close</button>
+            <div class="input-group">
+                <label for="font-select">Fonte do Relógio:</label>
+                <select id="font-select">
+                    <option value="'Roboto Condensed', sans-serif">Roboto</option>
+                    <option value="'Offside', cursive">Offside</option>
+                    <option value="'Audiowide', cursive">Audiowide</option>
+                    <option value="'Zen Dots', cursive">Zen Dots</option>
+                    <option value="'Outfit', sans-serif">Qanelas Soft Extra Bold</option>
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="seconds-checkbox">
+                <label for="seconds-checkbox">Exibir Segundos</label>
+            </div>
+            <button id="get-location-btn">Usar Localização Atual <span id="location-spinner" class="spinner hidden"></span></button>
+            <button id="close-settings-btn">Salvar &amp; Fechar</button>
         </div>
     </div>
 
     <script>
-        let currentLat = localStorage.getItem('lat') || "51.5072";
-        let currentLon = localStorage.getItem('lon') || "-0.1276";
+        let currentLat = localStorage.getItem('lat') || "-27.5692";
+        let currentLon = localStorage.getItem('lon') || "-48.6104";
+        let showSeconds = localStorage.getItem('showSeconds') === 'true';
+        let clockFont = localStorage.getItem('clockFont') || "'Roboto Condensed', sans-serif";
 
         const API_URL = "https://api.open-meteo.com/v1/forecast";
-        const DAILY_VARS = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_hours";
+        const DAILY_VARS = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant";
         const FORECAST_DAYS = "1";
         const ICON_BASE_URL = "https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/";
 
+        let prevHours = null, prevMinutes = null, prevSeconds = null;
+
+        function applyFont(fontFamily) {
+            const elements = document.querySelectorAll('.flip-clock-card, .seconds-card');
+            elements.forEach(el => el.style.fontFamily = fontFamily);
+        }
+
+        function flipCard(cardId, newValue) {
+            const card = document.getElementById(cardId);
+            const topFront = card.querySelector('.top-front');
+            const bottomFront = card.querySelector('.bottom-front');
+            const topBack = card.querySelector('.top-back');
+            const bottomBack = card.querySelector('.bottom-back');
+
+            const currentValue = topFront.textContent;
+            if (currentValue === newValue) return;
+
+            topBack.textContent = newValue;
+            bottomBack.textContent = currentValue;
+
+            topFront.textContent = currentValue;
+            bottomFront.textContent = newValue;
+
+            card.classList.remove('flipping');
+            void card.offsetWidth;
+            card.classList.add('flipping');
+
+            setTimeout(() => {
+                topFront.textContent = newValue;
+                bottomBack.textContent = newValue;
+                card.classList.remove('flipping');
+            }, 500);
+        }
+
         function updateTime() {
             const now = new Date();
-            const timeString = now.toTimeString().slice(0, 5);
-            document.getElementById('time').textContent = timeString;
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
 
-            const day = now.getDate();
-            let suffix;
-            if (day > 3 && day < 21) {
-                suffix = 'th';
+            if (prevHours === null) {
+                ['hours-card', 'minutes-card', 'seconds-card'].forEach(id => {
+                    const c = document.getElementById(id);
+                    const val = id === 'hours-card' ? hours : (id === 'minutes-card' ? minutes : seconds);
+                    c.querySelectorAll('.card-face').forEach(f => f.textContent = val);
+                });
             } else {
-                switch (day % 10) {
-                    case 1:  suffix = "st"; break;
-                    case 2:  suffix = "nd"; break;
-                    case 3:  suffix = "rd"; break;
-                    default: suffix = "th";
-                }
+                if (hours !== prevHours) flipCard('hours-card', hours);
+                if (minutes !== prevMinutes) flipCard('minutes-card', minutes);
+                if (showSeconds && seconds !== prevSeconds) flipCard('seconds-card', seconds);
             }
-            const dateString = `${day}<sup>${suffix}</sup> ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
-            document.getElementById('date').innerHTML = dateString.toUpperCase();
+
+            prevHours = hours;
+            prevMinutes = minutes;
+            prevSeconds = seconds;
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            document.getElementById('date-label').textContent = `${day}/${month}/${year}`;
+
+            const weekDay = now.toLocaleDateString('pt-BR', { weekday: 'long' });
+            document.getElementById('day-label').textContent = weekDay.toLowerCase();
         }
 
         function getWeatherIconName(code) {
@@ -254,14 +535,10 @@
 
             try {
                 const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
                 const data = await response.json();
-                if (data.error) {
-                    console.error("Weather API Error:", data.reason);
-                    return;
-                }
+                if (data.error) return;
 
                 const daily = data.daily;
                 const weatherCode = daily.weather_code[0];
@@ -269,14 +546,23 @@
                 const tempMin = Math.round(daily.temperature_2m_min[0]);
                 const precipChance = daily.precipitation_probability_max[0];
                 const precipHours = daily.precipitation_hours[0];
+                
+                const windSpeed = Math.round(daily.wind_speed_10m_max[0]);
+                const windGust = Math.round(daily.wind_gusts_10m_max[0]);
+                const windDirDeg = daily.wind_direction_10m_dominant[0];
 
                 document.getElementById('precip-chance').textContent = `${precipChance}% (${precipHours}h)`;
                 document.getElementById('temp-min').innerHTML = `<small>Min:</small> <b>${tempMin}°</b>`;
                 document.getElementById('temp-max').innerHTML = `<small>Max:</small> <b>${tempMax}°</b>`;
+                
+                document.getElementById('wind-text').textContent = `${windSpeed} km/h (${windGust})`;
+                
+                /* Inversão da flecha para apontar na direção do DESTINO (+180 deg) */
+                const flowDirDeg = (windDirDeg + 180) % 360;
+                document.getElementById('wind-arrow').style.transform = `rotate(${flowDirDeg}deg)`;
 
                 const iconName = getWeatherIconName(weatherCode);
-                const iconUrl = `${ICON_BASE_URL}${iconName}`;
-                document.getElementById('weather-icon').src = iconUrl;
+                document.getElementById('weather-icon').src = `${ICON_BASE_URL}${iconName}`;
 
             } catch (error) {
                 console.error("Error fetching weather data:", error);
@@ -285,46 +571,41 @@
 
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            applyFont(clockFont);
             updateTime();
             setInterval(updateTime, 1000);
             
             fetchWeather();
-            // Fetch weather every hour
             setInterval(fetchWeather, 3600000);
 
-            // Long press for settings, tap for fullscreen
+            const secContainer = document.getElementById('seconds-container');
+            if (showSeconds) secContainer.classList.remove('hidden');
+
             let pressTimer;
             let isLongPress = false;
 
             function startPress(e) {
-                // Don't trigger on settings modal or its children
-                if (e.target.closest('#settings-overlay')) {
-                    return;
-                }
+                if (e.target.closest('#settings-overlay')) return;
                 isLongPress = false;
                 pressTimer = window.setTimeout(function () {
                     isLongPress = true;
                     const settingsOverlay = document.getElementById('settings-overlay');
                     document.getElementById('lat-input').value = currentLat;
                     document.getElementById('lon-input').value = currentLon;
+                    document.getElementById('seconds-checkbox').checked = showSeconds;
+                    document.getElementById('font-select').value = clockFont;
                     settingsOverlay.classList.remove('hidden');
-                }, 1000); // 1 second
+                }, 1000);
             }
 
-            function cancelPress() {
-                clearTimeout(pressTimer);
-            }
+            function cancelPress() { clearTimeout(pressTimer); }
 
             const body = document.body;
             body.addEventListener("mousedown", startPress);
@@ -335,23 +616,34 @@
             body.addEventListener("touchcancel", cancelPress);
 
             body.addEventListener('click', e => {
-                if (isLongPress) return;
-                if (e.target.closest('#settings-overlay')) return;
+                if (isLongPress || e.target.closest('#settings-overlay')) return;
                 toggleFullScreen();
             });
 
-            // Settings UI event listeners
             document.getElementById('close-settings-btn').addEventListener('click', () => {
                 const lat = document.getElementById('lat-input').value;
                 const lon = document.getElementById('lon-input').value;
+                const secChecked = document.getElementById('seconds-checkbox').checked;
+                const selectedFont = document.getElementById('font-select').value;
 
                 if (lat && lon) {
                     currentLat = lat;
                     currentLon = lon;
                     localStorage.setItem('lat', lat);
                     localStorage.setItem('lon', lon);
-                    fetchWeather();
                 }
+
+                showSeconds = secChecked;
+                localStorage.setItem('showSeconds', secChecked);
+
+                clockFont = selectedFont;
+                localStorage.setItem('clockFont', selectedFont);
+                applyFont(clockFont);
+
+                if (showSeconds) secContainer.classList.remove('hidden');
+                else secContainer.classList.add('hidden');
+
+                fetchWeather();
                 document.getElementById('settings-overlay').classList.add('hidden');
             });
 
@@ -366,12 +658,9 @@
                         document.getElementById('lon-input').value = lon;
                         spinner.classList.add('hidden');
                     }, error => {
-                        console.error("Geolocation error:", error);
-                        alert("Could not get location. Please enter manually or check permissions.");
+                        alert("Não foi possível obter a localização.");
                         spinner.classList.add('hidden');
                     });
-                } else {
-                    alert("Geolocation is not supported by your browser.");
                 }
             });
         });
