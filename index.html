@@ -32,8 +32,8 @@
             width: 100%;
             height: 90vh;
             padding-left: 100px;
-            padding-right: 100px;
-            gap: 50px;
+            padding-right: 200px;
+            gap: 20px;
             position: relative;
             align-items: center;
         }
@@ -81,6 +81,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* --- FLIP CARD PRINCIPAL --- */
         .flip-clock-card {
             position: relative;
             width: 32vw;
@@ -158,41 +159,45 @@
             transform: translateY(-50%);
         }
 
+        /* --- SEGUNDOS (POSICIONADOS DENTRO DO CARD DE MINUTOS NO CANTO INFERIOR DIREITO) --- */
         .seconds-container {
-            width: 100%;
+            position: absolute;
+            bottom: 1.2vw;
+            right: 1.2vw;
+            z-index: 20;
             display: flex;
-            justify-content: flex-end;
-            margin-top: 0.8vw;
         }
 
         .seconds-card {
             position: relative;
-            width: 8vw;
-            height: 5.8vw;
-            background: #1c1c1e;
-            border-radius: 1vw;
+            width: 6.5vw;
+            height: 4.8vw;
+            background: #111113;
+            border-radius: 0.8vw;
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 800;
-            font-size: 5vw;
+            font-size: 4vw;
             color: #b5b5b7;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
             perspective: 500px;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .seconds-card .card-face {
-            padding-left: 0.3vw;
-            padding-right: 0.3vw;
+            padding-left: 0.2vw;
+            padding-right: 0.2vw;
+            background: #111113;
         }
 
         .seconds-card .card-face.top {
-            border-top-left-radius: 1vw;
-            border-top-right-radius: 1vw;
-            line-height: 5.8vw;
+            border-top-left-radius: 0.8vw;
+            border-top-right-radius: 0.8vw;
+            line-height: 4.8vw;
         }
 
         .seconds-card .card-face.bottom {
-            border-bottom-left-radius: 1vw;
-            border-bottom-right-radius: 1vw;
+            border-bottom-left-radius: 0.8vw;
+            border-bottom-right-radius: 0.8vw;
             line-height: 0vw;
         }
 
@@ -357,7 +362,7 @@
                     </div>
                 </div>
 
-                <!-- Minutos + Segundos -->
+                <!-- Minutos (Com Segundos imbutidos no canto inferior direito) -->
                 <div class="clock-column">
                     <div id="day-label" class="top-label">sábado</div>
                     <div id="minutes-card" class="flip-clock-card">
@@ -365,15 +370,15 @@
                         <div class="card-face bottom bottom-back">00</div>
                         <div class="card-face top top-front">00</div>
                         <div class="card-face bottom bottom-front">00</div>
-                    </div>
 
-                    <!-- Segundos -->
-                    <div id="seconds-container" class="seconds-container hidden">
-                        <div id="seconds-card" class="seconds-card">
-                            <div class="card-face top top-back">00</div>
-                            <div class="card-face bottom bottom-back">00</div>
-                            <div class="card-face top top-front">00</div>
-                            <div class="card-face bottom bottom-front">00</div>
+                        <!-- Segundos Internos -->
+                        <div id="seconds-container" class="seconds-container hidden">
+                            <div id="seconds-card" class="seconds-card">
+                                <div class="card-face top top-back">00</div>
+                                <div class="card-face bottom bottom-back">00</div>
+                                <div class="card-face top top-front">00</div>
+                                <div class="card-face bottom bottom-front">00</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -440,6 +445,23 @@
         const ICON_BASE_URL = "https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/";
 
         let prevHours = null, prevMinutes = null, prevSeconds = null;
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                } catch (err) {
+                    console.error(`Wake Lock Error: ${err.name}, ${err.message}`);
+                }
+            }
+        }
+
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await requestWakeLock();
+            }
+        });
 
         function applyFont(fontFamily) {
             const elements = document.querySelectorAll('.flip-clock-card, .seconds-card');
@@ -557,7 +579,6 @@
                 
                 document.getElementById('wind-text').textContent = `${windSpeed} km/h (${windGust})`;
                 
-                /* Inversão da flecha para apontar na direção do DESTINO (+180 deg) */
                 const flowDirDeg = (windDirDeg + 180) % 360;
                 document.getElementById('wind-arrow').style.transform = `rotate(${flowDirDeg}deg)`;
 
@@ -578,12 +599,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            requestWakeLock();
+            
             applyFont(clockFont);
             updateTime();
             setInterval(updateTime, 1000);
             
             fetchWeather();
-            setInterval(fetchWeather, 3600000);
+            setInterval(fetchWeather, 1800000);
 
             const secContainer = document.getElementById('seconds-container');
             if (showSeconds) secContainer.classList.remove('hidden');
