@@ -39,6 +39,19 @@
             gap: 1.5vw;
         }
 
+        /* --------------------------------------------------
+           MODO DE LAYOUT: ABAIXO (Mobile Landscape)
+        -------------------------------------------------- */
+        .container.layout-bottom {
+            flex-direction: column;
+            padding: 0.5vh 1.5vw 0.8vh 1.5vw;
+            justify-content: space-between;
+            gap: 0;
+        }
+
+        /* --------------------------------------------------
+           PAINEL DO RELÓGIO (LEFT PANEL)
+        -------------------------------------------------- */
         .left-panel {
             flex: 0 0 auto;
             display: flex;
@@ -47,15 +60,10 @@
             align-items: flex-start;
         }
 
-        .right-panel {
+        .container.layout-bottom .left-panel {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            width: 100%;
             align-items: center;
-            text-align: center;
-            min-width: 0;
-            height: 100%;
         }
 
         .clock-container {
@@ -63,6 +71,12 @@
             gap: 1.5vmin;
             justify-content: flex-start;
             align-items: flex-start;
+        }
+
+        .container.layout-bottom .clock-container {
+            gap: 2.5vw;
+            justify-content: center;
+            align-items: center;
         }
 
         .clock-column {
@@ -81,6 +95,16 @@
             letter-spacing: 0.5px;
         }
 
+        .container.layout-bottom .top-label {
+            font-size: clamp(12px, 2.5vh, 20px);
+            margin-bottom: 0.1vh;
+            text-transform: lowercase;
+        }
+
+        .container.layout-bottom #date-label {
+            text-transform: none;
+        }
+
         .flip-clock-card {
             position: relative;
             width: clamp(110px, 26vw, 60vh);
@@ -94,6 +118,13 @@
             line-height: 1;
             color: #b5b5b7;
             perspective: 1000px;
+        }
+
+        .container.layout-bottom .flip-clock-card {
+            width: clamp(140px, 42vw, 68vh);
+            height: clamp(140px, 42vw, 68vh);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            font-size: clamp(110px, 38vw, 58vh);
         }
 
         .card-face {
@@ -126,9 +157,7 @@
             border-top-right-radius: 4vmin;
         }
 
-        .card-face.top .card-text {
-            top: 0;
-        }
+        .card-face.top .card-text { top: 0; }
 
         .card-face.bottom {
             bottom: 0;
@@ -136,22 +165,15 @@
             border-bottom-right-radius: 4vmin;
         }
 
-        .card-face.bottom .card-text {
-            bottom: 0;
-        }
+        .card-face.bottom .card-text { bottom: 0; }
 
         .flip-clock-card .top-back { z-index: 1; }
         .flip-clock-card .bottom-back { z-index: 2; }
         .flip-clock-card .top-front { z-index: 3; transform-origin: bottom; }
         .flip-clock-card .bottom-front { z-index: 4; transform-origin: top; transform: rotateX(90deg); }
 
-        .flip-clock-card.flipping .top-front {
-            animation: flipTopFront 0.25s ease-in forwards;
-        }
-
-        .flip-clock-card.flipping .bottom-front {
-            animation: flipBottomFront 0.25s ease-out 0.25s forwards;
-        }
+        .flip-clock-card.flipping .top-front { animation: flipTopFront 0.25s ease-in forwards; }
+        .flip-clock-card.flipping .bottom-front { animation: flipBottomFront 0.25s ease-out 0.25s forwards; }
 
         @keyframes flipTopFront {
             0% { transform: rotateX(0deg); }
@@ -175,12 +197,20 @@
             transform: translateY(-50%);
         }
 
+        .container.layout-bottom .flip-clock-card::after {
+            height: 3px;
+        }
+
         .seconds-container {
             position: absolute;
             bottom: 0;
             right: 2vmin;
             z-index: 20;
             display: flex;
+        }
+
+        .container.layout-bottom .seconds-container {
+            right: 1.5vmin;
         }
 
         .seconds-card {
@@ -204,43 +234,47 @@
             transform: translateZ(0);
         }
 
-        .seconds-card .card-face {
-            background: #1c1c1e;
-            will-change: transform;
+        .container.layout-bottom .seconds-card {
+            width: clamp(28px, 7vw, 11vh);
+            height: clamp(24px, 5.8vw, 9vh);
+            border-top-left-radius: 1vmin;
+            border-top-right-radius: 1vmin;
+            border-bottom-left-radius: 3vmin;
+            border-bottom-right-radius: 3vmin;
+            font-size: clamp(20px, 5vw, 8vh);
         }
 
-        .seconds-card .card-face.top {
-            border-top-left-radius: 1.5vmin;
-            border-top-right-radius: 1.5vmin;
-        }
-
-        .seconds-card .card-face.bottom {
-            border-bottom-left-radius: 4vmin;
-            border-bottom-right-radius: 4vmin;
-        }
-
+        .seconds-card .card-face { background: #1c1c1e; will-change: transform; }
+        .seconds-card .card-face.top { border-top-left-radius: 1.5vmin; border-top-right-radius: 1.5vmin; }
+        .seconds-card .card-face.bottom { border-bottom-left-radius: 4vmin; border-bottom-right-radius: 4vmin; }
+        .container.layout-bottom .seconds-card .card-face.top { border-top-left-radius: 1vmin; border-top-right-radius: 1vmin; }
+        .container.layout-bottom .seconds-card .card-face.bottom { border-bottom-left-radius: 3vmin; border-bottom-right-radius: 3vmin; }
+        
         .seconds-card .top-back { z-index: 1; }
         .seconds-card .bottom-back { z-index: 2; }
         .seconds-card .top-front { z-index: 3; transform-origin: bottom; }
         .seconds-card .bottom-front { z-index: 4; transform-origin: top; transform: rotateX(90deg); }
 
-        .seconds-card.flipping .top-front {
-            animation: flipTopFront 0.2s ease-in forwards;
+        .seconds-card.flipping .top-front { animation: flipTopFront 0.2s ease-in forwards; }
+        .seconds-card.flipping .bottom-front { animation: flipBottomFront 0.2s ease-out 0.2s forwards; }
+
+        .seconds-card::after { display: none; }
+        .seconds-container.hidden { display: none; }
+
+        /* --------------------------------------------------
+           PAINEL DO CLIMA (RIGHT PANEL - À DIREITA)
+        -------------------------------------------------- */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-width: 0;
+            height: 100%;
         }
 
-        .seconds-card.flipping .bottom-front {
-            animation: flipBottomFront 0.2s ease-out 0.2s forwards;
-        }
-
-        .seconds-card::after {
-            display: none;
-        }
-
-        .seconds-container.hidden {
-            display: none;
-        }
-
-        /* Tabelas Genéricas */
         .weather-table-container {
             display: flex;
             align-items: center;
@@ -250,14 +284,10 @@
             width: 100%;
         }
 
-        /* Container do ícone principal do topo */
-        .weather-current-icon-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
+        .top-icon-wrapper {
+            display: inline-flex;
             justify-content: center;
-            margin-bottom: 0.2vh;
-            position: relative;
+            align-items: center;
         }
 
         .weather-icon-current {
@@ -265,13 +295,6 @@
             height: clamp(55px, 11vw, 15vh);
             filter: invert(1);
             display: block;
-        }
-
-        /* Ajuste do alinhamento do ícone do topo com base no centro do grid da tabela */
-        .top-icon-wrapper {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .weather-icon-table {
@@ -397,19 +420,171 @@
             background: #666;
         }
 
+        .weather-now-section, .weather-column-block {
+            display: none;
+        }
+
+        /* --------------------------------------------------
+           ESTILOS ESPECÍFICOS DO CLIMA QUANDO ABAIXO
+        -------------------------------------------------- */
+        .container.layout-bottom .right-panel {
+            flex: 0 0 auto;
+            width: auto;
+            max-width: 96vw;
+            margin: 0 auto;
+            background: rgba(28, 28, 30, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 0.6vh 2vw;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: center;
+            position: relative;
+            height: auto;
+            text-align: left;
+        }
+
+        .container.layout-bottom .weather-table-container,
+        .container.layout-bottom .temp-humidity-row,
+        .container.layout-bottom .weather-details {
+            display: none;
+        }
+
+        .container.layout-bottom .weather-now-section,
+        .container.layout-bottom .weather-column-block {
+            display: flex;
+            align-items: center;
+            padding: 0 1.8vw;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            margin-top: 2.5px;
+            margin-bottom: 2.5px;
+        }
+
+        .container.layout-bottom .weather-column-block:last-of-type {
+            border-right: none !important;
+        }
+
+        .container.layout-bottom .weather-now-section {
+            gap: 1vw;
+            padding-left: 0.5vw;
+        }
+
+        .container.layout-bottom .weather-icon-current {
+            width: clamp(32px, 8vw, 6.5vh);
+            height: clamp(32px, 8vw, 6.5vh);
+        }
+
+        .container.layout-bottom .weather-now-data {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .container.layout-bottom .layout-bottom-temp-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+            font-size: clamp(18px, 4.5vw, 4.2vh);
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .container.layout-bottom .wi-icon-small {
+            width: 0.8em;
+            height: 0.8em;
+        }
+
+        .container.layout-bottom .humidity-icon {
+            font-size: 0.8em !important;
+        }
+
+        .container.layout-bottom .layout-bottom-temp-minmax {
+            font-size: clamp(11px, 2.2vw, 2vh);
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+            margin-top: 0.2vh;
+        }
+
+        .container.layout-bottom .layout-bottom-temp-minmax .item {
+            display: flex;
+            align-items: center;
+            gap: 0.1em;
+        }
+
+        .container.layout-bottom .weather-column-block {
+            gap: 0.8vw;
+        }
+
+        .container.layout-bottom .weather-column-block .weather-table-icon {
+            font-size: clamp(16px, 3vw, 3vh) !important;
+            color: #aaa;
+        }
+
+        .container.layout-bottom .weather-column-block .weather-table th,
+        .container.layout-bottom .weather-column-block .weather-table td {
+            padding: 0.1em 0.4vw;
+            font-size: clamp(11px, 2.2vw, 2vh);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .container.layout-bottom .weather-column-block .weather-table th {
+            color: #777;
+            font-size: clamp(10px, 1.8vw, 1.7vh);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.2vh;
+        }
+
+        .container.layout-bottom .weather-column-block .weather-icon-table {
+            width: clamp(16px, 2.8vw, 2.5vh);
+            height: clamp(16px, 2.8vw, 2.5vh);
+        }
+
+        .container.layout-bottom .weather-column-block .wind-table-arrow {
+            font-size: clamp(14px, 2.5vw, 2.3vh) !important;
+        }
+
+        .container.layout-bottom .weather-column-block .wind-gust-row {
+            color: #888;
+            font-size: clamp(9px, 1.6vw, 1.5vh);
+        }
+
+        .container.layout-bottom .progress-bar-container {
+            position: absolute;
+            bottom: 1px;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            max-width: none;
+            margin: 0;
+        }
+
+        .container.layout-bottom .progress-bar-fill {
+            background: #555;
+        }
+
         .material-symbols-outlined {
-            font-size: 1.2em;
+            font-size: 1.1em;
             vertical-align: middle;
             display: inline-block;
         }
 
+        /* --------------------------------------------------
+           MODAL CONFIGURAÇÕES
+        -------------------------------------------------- */
         .settings-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -420,24 +595,25 @@
 
         .settings-box {
             background: #111;
-            padding: 2em;
+            padding: 1.5em;
             border: 1px solid #333;
             border-radius: 12px;
             text-align: center;
-            min-width: 300px;
+            min-width: 280px;
             max-width: 90vw;
             color: #fff;
         }
 
         .settings-box h2 { margin-top: 0; font-family: 'Roboto Condensed', sans-serif; }
 
-        .input-group { margin-bottom: 1em; text-align: left; }
-        .input-group label { display: block; margin-bottom: 0.5em; font-size: 0.9em; }
+        .input-group { margin-bottom: 0.8em; text-align: left; }
+        .input-group label { display: block; margin-bottom: 0.3em; font-size: 0.85em; }
 
-        .input-group input[type="text"] {
+        .input-group input[type="text"],
+        .input-group select {
             box-sizing: border-box;
             width: 100%;
-            padding: 0.6em;
+            padding: 0.5em;
             background: #222;
             border: 1px solid #444;
             color: #fff;
@@ -449,22 +625,22 @@
             display: flex;
             align-items: center;
             gap: 0.5em;
-            margin-bottom: 1em;
+            margin-bottom: 0.8em;
             text-align: left;
             cursor: pointer;
         }
 
-        .checkbox-group input { width: 1.2em; height: 1.2em; cursor: pointer; }
+        .checkbox-group input { width: 1.1em; height: 1.1em; cursor: pointer; }
 
         .settings-box button {
             background: #333;
             color: #fff;
             border: none;
-            padding: 0.75em 1.5em;
+            padding: 0.6em 1.2em;
             border-radius: 6px;
             font-family: inherit;
             cursor: pointer;
-            margin: 0.3em;
+            margin: 0.2em;
         }
 
         .settings-box button:hover { background: #555; }
@@ -485,7 +661,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="main-container" class="container">
+        <!-- PAINEL DO RELÓGIO -->
         <div class="left-panel">
             <div class="clock-container">
                 <div class="clock-column">
@@ -519,8 +696,9 @@
             </div>
         </div>
 
+        <!-- PAINEL DO CLIMA -->
         <div class="right-panel">
-            <!-- Linha 1: Ícone Atual Principal (Alinhado exatamente ao centro do grid) -->
+            <!-- ================= LAYOUT À DIREITA ================= -->
             <div class="weather-table-container">
                 <span class="material-symbols-outlined table-spacer-icon">rainy</span>
                 <div class="top-icon-wrapper">
@@ -528,21 +706,16 @@
                 </div>
             </div>
 
-            <!-- Linha 2: Tabela de Ícones das Próximas 5h (1h a 5h) -->
             <div class="weather-table-container">
                 <span class="material-symbols-outlined table-spacer-icon">rainy</span>
                 <table class="weather-table">
                     <thead>
                         <tr>
-                            <th>1h</th>
-                            <th>2h</th>
-                            <th>3h</th>
-                            <th>4h</th>
-                            <th>5h</th>
+                            <th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="icons-row-5h">
+                        <tr class="icons-row-5h">
                             <td><img class="weather-icon-table" src="" alt=""></td>
                             <td><img class="weather-icon-table" src="" alt=""></td>
                             <td><img class="weather-icon-table" src="" alt=""></td>
@@ -556,11 +729,11 @@
             <div class="temp-humidity-row">
                 <div class="temp-group">
                     <img src="https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/wi-thermometer.svg" class="wi-icon-small" alt="Termômetro">
-                    <span id="temp-now">--</span>ºC
+                    <span class="temp-now-val">--</span>ºC
                 </div>
                 <div class="humidity-group">
                     <span class="material-symbols-outlined humidity-icon">water_drop</span>
-                    <span id="humidity-text">--%</span>
+                    <span class="humidity-text-val">--%</span>
                 </div>
             </div>
 
@@ -568,53 +741,41 @@
                 <div class="temp-min-max">
                     <div class="item">
                         <span class="material-symbols-outlined">ac_unit</span>
-                        <b id="temp-min">--</b>ºC
+                        <b class="temp-min-val">--</b>ºC
                     </div>
                     |
                     <div class="item">
                         <span class="material-symbols-outlined">sunny</span>
-                        <b id="temp-max">--</b>ºC
+                        <b class="temp-max-val">--</b>ºC
                     </div>
                 </div>
 
-                <!-- Tabela de Chuva (0h a 5h) -->
                 <div class="weather-table-container">
                     <span class="material-symbols-outlined weather-table-icon">rainy</span>
                     <table class="weather-table">
                         <thead>
                             <tr>
-                                <th>0h</th>
-                                <th>1h</th>
-                                <th>2h</th>
-                                <th>3h</th>
-                                <th>4h</th>
-                                <th>5h</th>
+                                <th>0h</th><th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="rain-row-prob">
+                            <tr class="rain-row-prob-6">
                                 <td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Tabela de Vento (0h a 5h) -->
                 <div class="weather-table-container">
                     <span class="material-symbols-outlined weather-table-icon">air</span>
                     <table class="weather-table">
                         <thead>
                             <tr>
-                                <th>0h</th>
-                                <th>1h</th>
-                                <th>2h</th>
-                                <th>3h</th>
-                                <th>4h</th>
-                                <th>5h</th>
+                                <th>0h</th><th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="wind-row-arrows">
+                            <tr class="wind-row-arrows-6">
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
@@ -622,23 +783,96 @@
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                             </tr>
-                            <tr id="wind-row-speed">
+                            <tr class="wind-row-speed-6">
                                 <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
                             </tr>
-                            <tr id="wind-row-gusts" class="wind-gust-row">
+                            <tr class="wind-row-gusts-6 wind-gust-row">
                                 <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
 
-                <div class="progress-bar-container">
-                    <div id="update-progress-bar" class="progress-bar-fill"></div>
+            <!-- ================= LAYOUT ABAIXO ================= -->
+            <div class="weather-now-section">
+                <img id="weather-icon-now-bottom" class="weather-icon-current" src="" alt="Tempo Atual">
+                <div class="weather-now-data">
+                    <div class="layout-bottom-temp-row">
+                        <div class="temp-group">
+                            <img src="https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/wi-thermometer.svg" class="wi-icon-small" alt="Termômetro">
+                            <span class="temp-now-val">--</span>ºC
+                        </div>
+                        <div class="humidity-group">
+                            <span class="material-symbols-outlined humidity-icon">water_drop</span>
+                            <span class="humidity-text-val">--%</span>
+                        </div>
+                    </div>
+                    <div class="layout-bottom-temp-minmax">
+                        <div class="item"><span class="material-symbols-outlined">ac_unit</span><b class="temp-min-val">--</b>º</div>
+                        |
+                        <div class="item"><span class="material-symbols-outlined">sunny</span><b class="temp-max-val">--</b>º</div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="weather-column-block">
+                <span class="material-symbols-outlined weather-table-icon">rainy</span>
+                <table class="weather-table">
+                    <thead>
+                        <tr>
+                            <th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="icons-row-5h">
+                            <td><img class="weather-icon-table" src="" alt=""></td>
+                            <td><img class="weather-icon-table" src="" alt=""></td>
+                            <td><img class="weather-icon-table" src="" alt=""></td>
+                            <td><img class="weather-icon-table" src="" alt=""></td>
+                            <td><img class="weather-icon-table" src="" alt=""></td>
+                        </tr>
+                        <tr class="rain-row-prob-5">
+                            <td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="weather-column-block">
+                <span class="material-symbols-outlined weather-table-icon">air</span>
+                <table class="weather-table">
+                    <thead>
+                        <tr>
+                            <th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="wind-row-arrows-5">
+                            <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                            <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                            <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                            <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                            <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                        </tr>
+                        <tr class="wind-row-speed-5">
+                            <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+                        </tr>
+                        <tr class="wind-row-gusts-5 wind-gust-row">
+                            <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BARRA DE PROGRESSO -->
+            <div class="progress-bar-container">
+                <div id="update-progress-bar" class="progress-bar-fill"></div>
             </div>
         </div>
     </div>
 
+    <!-- CONFIGURAÇÕES -->
     <div id="settings-overlay" class="settings-overlay hidden">
         <div class="settings-box">
             <h2>Configurações</h2>
@@ -649,6 +883,13 @@
             <div class="input-group">
                 <label for="lon-input">Longitude:</label>
                 <input type="text" id="lon-input">
+            </div>
+            <div class="input-group">
+                <label for="layout-select">Layout da Previsão:</label>
+                <select id="layout-select">
+                    <option value="right">À Direita</option>
+                    <option value="bottom">Abaixo</option>
+                </select>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="seconds-checkbox">
@@ -663,6 +904,7 @@
         let currentLat = localStorage.getItem('lat') || "-27.5692";
         let currentLon = localStorage.getItem('lon') || "-48.6104";
         let showSeconds = localStorage.getItem('showSeconds') === 'true';
+        let weatherLayout = localStorage.getItem('weatherLayout') || 'right';
 
         const API_URL = "https://api.open-meteo.com/v1/forecast";
         const HOURLY_VARS = "temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m";
@@ -674,6 +916,15 @@
 
         let prevHours = null, prevMinutes = null, prevSeconds = null;
         let wakeLock = null;
+
+        function applyLayout(layout) {
+            const container = document.getElementById('main-container');
+            if (layout === 'bottom') {
+                container.classList.add('layout-bottom');
+            } else {
+                container.classList.remove('layout-bottom');
+            }
+        }
 
         async function requestWakeLock() {
             if ('wakeLock' in navigator) {
@@ -805,51 +1056,74 @@
                 let curIdx = hourly.time.findIndex(t => t.startsWith(currentHourISO));
                 if (curIdx === -1) curIdx = 0;
 
-                // Ícone grande principal (Agora)
                 const iconNow = getWeatherIconName(hourly.weather_code[curIdx]);
                 document.getElementById('weather-icon-now').src = `${ICON_BASE_URL}${iconNow}`;
+                document.getElementById('weather-icon-now-bottom').src = `${ICON_BASE_URL}${iconNow}`;
 
-                // Tabela de Ícones das próximas 5 horas (1h a 5h)
-                const iconImgs = document.querySelectorAll('#icons-row-5h img');
-                for (let i = 0; i < 5; i++) {
-                    const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
-                    const iconName = getWeatherIconName(hourly.weather_code[idx]);
-                    iconImgs[i].src = `${ICON_BASE_URL}${iconName}`;
-                }
+                // Ícones 1h a 5h (Ambos os layouts)
+                document.querySelectorAll('.icons-row-5h').forEach(row => {
+                    const imgs = row.querySelectorAll('img');
+                    for (let i = 0; i < 5; i++) {
+                        const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
+                        imgs[i].src = `${ICON_BASE_URL}${getWeatherIconName(hourly.weather_code[idx])}`;
+                    }
+                });
 
                 const tempNow = Math.round(hourly.temperature_2m[curIdx]);
-                document.getElementById('temp-now').textContent = tempNow;
+                document.querySelectorAll('.temp-now-val').forEach(el => el.textContent = tempNow);
 
                 const humidity = hourly.relative_humidity_2m[curIdx];
-                document.getElementById('humidity-text').textContent = `${humidity}%`;
+                document.querySelectorAll('.humidity-text-val').forEach(el => el.textContent = `${humidity}%`);
 
                 const tempMax = Math.round(daily.temperature_2m_max[0]);
                 const tempMin = Math.round(daily.temperature_2m_min[0]);
-                document.getElementById('temp-min').textContent = tempMin;
-                document.getElementById('temp-max').textContent = tempMax;
+                document.querySelectorAll('.temp-min-val').forEach(el => el.textContent = tempMin);
+                document.querySelectorAll('.temp-max-val').forEach(el => el.textContent = tempMax);
 
-                // Atualizar Tabela de Chuva (0h a 5h)
-                const rainCells = document.querySelectorAll('#rain-row-prob td');
-                for (let i = 0; i < 6; i++) {
-                    const idx = Math.min(curIdx + i, hourly.time.length - 1);
-                    const rainProb = hourly.precipitation_probability[idx];
-                    rainCells[i].textContent = `${rainProb}%`;
+                // Chuva 0h a 5h (Layout Direita)
+                const rainCells6 = document.querySelectorAll('.rain-row-prob-6 td');
+                if (rainCells6.length) {
+                    for (let i = 0; i < 6; i++) {
+                        const idx = Math.min(curIdx + i, hourly.time.length - 1);
+                        rainCells6[i].textContent = `${hourly.precipitation_probability[idx]}%`;
+                    }
                 }
 
-                // Atualizar Tabela de Vento (0h a 5h)
-                const arrowEls = document.querySelectorAll('#wind-row-arrows .wind-table-arrow');
-                const speedCells = document.querySelectorAll('#wind-row-speed td');
-                const gustCells = document.querySelectorAll('#wind-row-gusts td');
+                // Chuva 1h a 5h (Layout Abaixo)
+                const rainCells5 = document.querySelectorAll('.rain-row-prob-5 td');
+                if (rainCells5.length) {
+                    for (let i = 0; i < 5; i++) {
+                        const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
+                        rainCells5[i].textContent = `${hourly.precipitation_probability[idx]}%`;
+                    }
+                }
 
-                for (let i = 0; i < 6; i++) {
-                    const idx = Math.min(curIdx + i, hourly.time.length - 1);
-                    const speed = Math.round(hourly.wind_speed_10m[idx]);
-                    const gust = Math.round(hourly.wind_gusts_10m[idx]);
-                    const dir = (hourly.wind_direction_10m[idx] + 180) % 360;
+                // Vento 0h a 5h (Layout Direita)
+                const arrows6 = document.querySelectorAll('.wind-row-arrows-6 .wind-table-arrow');
+                const speed6 = document.querySelectorAll('.wind-row-speed-6 td');
+                const gust6 = document.querySelectorAll('.wind-row-gusts-6 td');
+                if (arrows6.length) {
+                    for (let i = 0; i < 6; i++) {
+                        const idx = Math.min(curIdx + i, hourly.time.length - 1);
+                        const dir = (hourly.wind_direction_10m[idx] + 180) % 360;
+                        arrows6[i].style.transform = `rotate(${dir}deg)`;
+                        speed6[i].textContent = `${Math.round(hourly.wind_speed_10m[idx])}`;
+                        gust6[i].textContent = `${Math.round(hourly.wind_gusts_10m[idx])}`;
+                    }
+                }
 
-                    arrowEls[i].style.transform = `rotate(${dir}deg)`;
-                    speedCells[i].textContent = `${speed}`;
-                    gustCells[i].textContent = `${gust}`;
+                // Vento 1h a 5h (Layout Abaixo)
+                const arrows5 = document.querySelectorAll('.wind-row-arrows-5 .wind-table-arrow');
+                const speed5 = document.querySelectorAll('.wind-row-speed-5 td');
+                const gust5 = document.querySelectorAll('.wind-row-gusts-5 td');
+                if (arrows5.length) {
+                    for (let i = 0; i < 5; i++) {
+                        const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
+                        const dir = (hourly.wind_direction_10m[idx] + 180) % 360;
+                        arrows5[i].style.transform = `rotate(${dir}deg)`;
+                        speed5[i].textContent = `${Math.round(hourly.wind_speed_10m[idx])}`;
+                        gust5[i].textContent = `${Math.round(hourly.wind_gusts_10m[idx])}`;
+                    }
                 }
 
             } catch (error) {
@@ -867,6 +1141,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             requestWakeLock();
+            applyLayout(weatherLayout);
 
             updateTime();
             setInterval(updateTime, 1000);
@@ -888,6 +1163,7 @@
                     const settingsOverlay = document.getElementById('settings-overlay');
                     document.getElementById('lat-input').value = currentLat;
                     document.getElementById('lon-input').value = currentLon;
+                    document.getElementById('layout-select').value = weatherLayout;
                     document.getElementById('seconds-checkbox').checked = showSeconds;
                     settingsOverlay.classList.remove('hidden');
                 }, 1000);
@@ -911,6 +1187,7 @@
             document.getElementById('close-settings-btn').addEventListener('click', () => {
                 const lat = document.getElementById('lat-input').value;
                 const lon = document.getElementById('lon-input').value;
+                const layoutVal = document.getElementById('layout-select').value;
                 const secChecked = document.getElementById('seconds-checkbox').checked;
 
                 if (lat && lon) {
@@ -919,6 +1196,10 @@
                     localStorage.setItem('lat', lat);
                     localStorage.setItem('lon', lon);
                 }
+
+                weatherLayout = layoutVal;
+                localStorage.setItem('weatherLayout', weatherLayout);
+                applyLayout(weatherLayout);
 
                 showSeconds = secChecked;
                 localStorage.setItem('showSeconds', secChecked);
