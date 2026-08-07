@@ -55,6 +55,7 @@
             align-items: center;
             text-align: center;
             min-width: 0;
+            height: 100%;
         }
 
         .clock-container {
@@ -239,23 +240,43 @@
             display: none;
         }
 
-        /* Ícone do Clima Atual (Linha 1) */
-        .weather-current-icon-container {
+        /* Tabelas Genéricas */
+        .weather-table-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.5vh;
+            gap: 0.4em;
+            margin-bottom: 0.8vh;
+            width: 100%;
+        }
+
+        /* Container do ícone principal do topo */
+        .weather-current-icon-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.2vh;
+            position: relative;
         }
 
         .weather-icon-current {
-            width: clamp(38px, 8vw, 12vh);
-            height: clamp(38px, 8vw, 12vh);
+            width: clamp(55px, 11vw, 15vh);
+            height: clamp(55px, 11vw, 15vh);
             filter: invert(1);
+            display: block;
+        }
+
+        /* Ajuste do alinhamento do ícone do topo com base no centro do grid da tabela */
+        .top-icon-wrapper {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .weather-icon-table {
-            width: clamp(16px, 2.5vw, 3.8vh);
-            height: clamp(16px, 2.5vw, 3.8vh);
+            width: clamp(22px, 3.8vw, 5vh);
+            height: clamp(22px, 3.8vw, 5vh);
             filter: invert(1);
             vertical-align: middle;
         }
@@ -272,10 +293,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4em;
-            font-size: clamp(20px, 4vw, 7vh);
+            gap: 0.5em;
+            font-size: clamp(28px, 5.5vw, 8.5vh);
             font-weight: 800;
-            margin-bottom: 0.8vh;
+            margin-bottom: 0.5vh;
             flex-wrap: nowrap;
             white-space: nowrap;
         }
@@ -286,14 +307,13 @@
             gap: 0.1em;
         }
 
-        /* Ajuste do ícone de umidade (reduzido) */
         .humidity-icon {
             font-size: 0.85em !important;
             vertical-align: middle;
         }
 
         .weather-details {
-            font-size: clamp(13px, 2vw, 3vh);
+            font-size: clamp(16px, 2.8vw, 4vh);
             width: 100%;
             text-align: center;
             line-height: 1.2;
@@ -302,7 +322,7 @@
         }
 
         .temp-min-max {
-            font-size: clamp(13px, 2vw, 3vh);
+            font-size: clamp(16px, 2.8vw, 4vh);
             margin-bottom: 0.8vh;
             display: flex;
             align-items: center;
@@ -316,19 +336,15 @@
             gap: 0.2em;
         }
 
-        /* Tabelas Genéricas */
-        .weather-table-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4em;
-            margin-bottom: 0.8vh;
-            width: 100%;
+        .weather-table-icon {
+            font-size: clamp(24px, 4vw, 5.8vh) !important;
+            color: #ccc;
         }
 
-        .weather-table-icon {
-            font-size: clamp(18px, 3vw, 4.5vh) !important;
-            color: #ccc;
+        .table-spacer-icon {
+            font-size: clamp(24px, 4vw, 5.8vh) !important;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .weather-table {
@@ -337,14 +353,14 @@
         }
 
         .weather-table th, .weather-table td {
-            padding: 0.1em 0.4em;
-            font-size: clamp(11px, 1.7vw, 2.5vh);
+            padding: 0.1em 0.35em;
+            font-size: clamp(14px, 2.4vw, 3.5vh);
             font-weight: 600;
         }
 
         .weather-table th {
             color: #888;
-            font-size: clamp(10px, 1.4vw, 2.1vh);
+            font-size: clamp(13px, 2.1vw, 3vh);
             font-weight: 700;
             border-bottom: 1px solid #333;
         }
@@ -354,20 +370,20 @@
         }
 
         .wind-table-arrow {
-            font-size: clamp(15px, 2.3vw, 3.5vh) !important;
+            font-size: clamp(20px, 3.2vw, 4.5vh) !important;
             display: inline-block;
             transition: transform 0.3s ease;
         }
 
         .wind-gust-row {
             color: #aaa;
-            font-size: clamp(10px, 1.5vw, 2.2vh);
+            font-size: clamp(13px, 2vw, 3vh);
         }
 
         .progress-bar-container {
-            width: 80%;
-            max-width: 350px;
-            margin: 0.5vh auto 0 auto;
+            width: 90%;
+            max-width: 450px;
+            margin: 0.8vh auto 0 auto;
             height: 4px;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 2px;
@@ -504,14 +520,17 @@
         </div>
 
         <div class="right-panel">
-            <!-- Linha 1: Ícone Atual Principal (Agora) -->
-            <div class="weather-current-icon-container">
-                <img id="weather-icon-now" class="weather-icon-current" src="" alt="Tempo Atual">
+            <!-- Linha 1: Ícone Atual Principal (Alinhado exatamente ao centro do grid) -->
+            <div class="weather-table-container">
+                <span class="material-symbols-outlined table-spacer-icon">rainy</span>
+                <div class="top-icon-wrapper">
+                    <img id="weather-icon-now" class="weather-icon-current" src="" alt="Tempo Atual">
+                </div>
             </div>
 
             <!-- Linha 2: Tabela de Ícones das Próximas 5h (1h a 5h) -->
             <div class="weather-table-container">
-                <span class="material-symbols-outlined weather-table-icon" style="opacity: 0;">schedule</span>
+                <span class="material-symbols-outlined table-spacer-icon">rainy</span>
                 <table class="weather-table">
                     <thead>
                         <tr>
@@ -558,12 +577,13 @@
                     </div>
                 </div>
 
-                <!-- Tabela de Chuva (1h a 5h) -->
+                <!-- Tabela de Chuva (0h a 5h) -->
                 <div class="weather-table-container">
                     <span class="material-symbols-outlined weather-table-icon">rainy</span>
                     <table class="weather-table">
                         <thead>
                             <tr>
+                                <th>0h</th>
                                 <th>1h</th>
                                 <th>2h</th>
                                 <th>3h</th>
@@ -573,18 +593,19 @@
                         </thead>
                         <tbody>
                             <tr id="rain-row-prob">
-                                <td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td>
+                                <td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Tabela de Vento (1h a 5h) -->
+                <!-- Tabela de Vento (0h a 5h) -->
                 <div class="weather-table-container">
                     <span class="material-symbols-outlined weather-table-icon">air</span>
                     <table class="weather-table">
                         <thead>
                             <tr>
+                                <th>0h</th>
                                 <th>1h</th>
                                 <th>2h</th>
                                 <th>3h</th>
@@ -599,12 +620,13 @@
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                                 <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
+                                <td class="wind-arrow-cell"><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
                             </tr>
                             <tr id="wind-row-speed">
-                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
                             </tr>
                             <tr id="wind-row-gusts" class="wind-gust-row">
-                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
+                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
                             </tr>
                         </tbody>
                     </table>
@@ -806,21 +828,21 @@
                 document.getElementById('temp-min').textContent = tempMin;
                 document.getElementById('temp-max').textContent = tempMax;
 
-                // Atualizar Tabela de Chuva (1h a 5h)
+                // Atualizar Tabela de Chuva (0h a 5h)
                 const rainCells = document.querySelectorAll('#rain-row-prob td');
-                for (let i = 0; i < 5; i++) {
-                    const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
+                for (let i = 0; i < 6; i++) {
+                    const idx = Math.min(curIdx + i, hourly.time.length - 1);
                     const rainProb = hourly.precipitation_probability[idx];
                     rainCells[i].textContent = `${rainProb}%`;
                 }
 
-                // Atualizar Tabela de Vento (1h a 5h)
+                // Atualizar Tabela de Vento (0h a 5h)
                 const arrowEls = document.querySelectorAll('#wind-row-arrows .wind-table-arrow');
                 const speedCells = document.querySelectorAll('#wind-row-speed td');
                 const gustCells = document.querySelectorAll('#wind-row-gusts td');
 
-                for (let i = 0; i < 5; i++) {
-                    const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
+                for (let i = 0; i < 6; i++) {
+                    const idx = Math.min(curIdx + i, hourly.time.length - 1);
                     const speed = Math.round(hourly.wind_speed_10m[idx]);
                     const gust = Math.round(hourly.wind_gusts_10m[idx]);
                     const dir = (hourly.wind_direction_10m[idx] + 180) % 360;
