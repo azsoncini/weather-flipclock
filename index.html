@@ -37,7 +37,7 @@
             gap: 1.5vh;
         }
 
-        /* BARRA SUPERIOR (NOVO DESIGN) */
+        /* BARRA SUPERIOR */
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -62,28 +62,104 @@
             color: #fff;
         }
 
-        .top-section {
+        /* --------------------------------------------------
+           ÁREA PRINCIPAL (HOJE - AMANHÃ - RELÓGIO)
+        -------------------------------------------------- */
+        .main-content {
             display: flex;
             flex-direction: row;
             flex: 1;
             width: 100%;
-            gap: 1.5vw;
+            gap: 2vw;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 0;
+        }
+
+        /* --------------------------------------------------
+           CARDS CLIMA VERTICAIS
+        -------------------------------------------------- */
+        .weather-card-vertical {
+            background: #1c1c1e;
+            border-radius: 4vmin;
+            padding: 3vh 2vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: clamp(120px, 32vw, 62vh);
+            width: clamp(230px, 30vw, 48vh);
+        }
+
+        .card-day-label {
+            font-size: clamp(16px, 3vh, 24px);
+            font-weight: 800;
+            color: #b5b5b7;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .weather-icon-large {
+            width: clamp(50px, 7vw, 12vh);
+            height: clamp(50px, 7vw, 12vh);
+            filter: invert(1);
+        }
+
+        .temp-display {
+            font-size: clamp(30px, 6vh, 5vw);
+            font-weight: 800;
+            line-height: 1;
+            color: #fff;
+        }
+
+        .temp-range-block {
+            display: flex;
+            gap: 1vw;
+            font-size: clamp(14px, 2.5vh, 2vw);
+            font-weight: 700;
+        }
+
+        .temp-min-val { color: #7be1ff; }
+        .temp-max-val { color: #ff7b7b; }
+
+        .metrics-block {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 2.5vh;
+            align-items: center;
+        }
+
+        .metrics-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            align-items: flex-start;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+            font-size: clamp(30px, 6vh, 5vw);
+            font-weight: 800;
+            color: #ddd;
+        }
+
+        .metric-item .material-symbols-outlined {
+            font-size: 1.1em;
+            color: #aaa;
+        }
+
+        .wind-arrow-inline {
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
 
         /* --------------------------------------------------
            RELÓGIO
         -------------------------------------------------- */
-        .left-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
         .clock-container {
             display: flex;
             gap: 2vw;
@@ -181,7 +257,7 @@
         }
 
         /* --------------------------------------------------
-           PROGRESSBAR REDUZIDA EM 50% (NO TOPO)
+           PROGRESSBAR E SEGUNDOS
         -------------------------------------------------- */
         .circular-progress {
             width: clamp(14px, 2.5vw, 4vh);
@@ -203,9 +279,6 @@
             border-radius: 50%;
         }
 
-        /* --------------------------------------------------
-           CONTADOR DE SEGUNDOS (MINUTOS)
-        -------------------------------------------------- */
         .seconds-container {
             position: absolute;
             bottom: 2vmin;
@@ -246,174 +319,6 @@
 
         .seconds-card::after { display: none; }
         .seconds-container.hidden { display: none; }
-
-        /* --------------------------------------------------
-           PAINEL CLIMA PRINCIPAL (ESQUERDA)
-        -------------------------------------------------- */
-        .right-panel {
-            flex: 0 0 auto;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .weather-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5vh;
-            width: clamp(220px, 32vw, 45vh);
-        }
-
-        .weather-card-half {
-            position: relative;
-            background: #1c1c1e;
-            border-radius: 3vmin;
-            padding: 2vh 1.8vw;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-day-label {
-            font-size: clamp(12px, 2vh, 15px);
-            font-weight: 800;
-            color: #b5b5b7;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5vh;
-        }
-
-        .weather-left-col {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-        }
-
-        .weather-icon-large {
-            width: clamp(30px, 4.5vw, 7vh);
-            height: clamp(30px, 4.5vw, 7vh);
-            filter: invert(1);
-            margin-bottom: 0.2vh;
-        }
-
-        .temp-display {
-            font-size: clamp(20px, 3.5vh, 2.8vw);
-            font-weight: 800;
-            line-height: 1;
-            color: #fff;
-        }
-
-        .temp-range-block {
-            display: flex;
-            gap: 0.6vw;
-            font-size: clamp(12px, 2vh, 1.5vw);
-            font-weight: 700;
-            margin-top: 0.3vh;
-        }
-
-        .temp-min-val { color: #7be1ff; }
-        .temp-max-val { color: #ff7b7b; }
-
-        .weather-right-col {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.8vh;
-            font-size: clamp(13px, 2.1vh, 1.6vw);
-            font-weight: 600;
-            color: #ddd;
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-            padding-left: 1.2vw;
-        }
-
-        .metric-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
-        }
-
-        .metric-item .material-symbols-outlined {
-            font-size: 1.2em;
-            color: #aaa;
-        }
-
-        .wind-arrow-inline {
-            display: inline-block;
-            font-size: 1.1em;
-            transition: transform 0.3s ease;
-        }
-
-        /* --------------------------------------------------
-           BARRA DE BAIXO UNIFICADA (PRÓXIMAS 10 HORAS)
-        -------------------------------------------------- */
-        .bottom-bar-panel {
-            width: 100%;
-            background: #1c1c1e;
-            border-radius: 3vmin;
-            padding: 1.2vh 1.5vw;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1.5vw;
-        }
-
-        .hourly-section {
-            display: flex;
-            align-items: center;
-            gap: 0.8vw;
-            flex: 1;
-        }
-
-        .hourly-section-icon {
-            font-size: clamp(20px, 3.5vh, 3.5vw) !important;
-            color: #aaa;
-        }
-
-        .weather-table {
-            border-collapse: collapse;
-            text-align: center;
-            width: 100%;
-        }
-
-        .weather-table th, .weather-table td {
-            padding: 0.1vh 0.2vw;
-            font-size: clamp(11px, 2vh, 1.7vw);
-            font-weight: 700;
-        }
-
-        .weather-table th {
-            color: #777;
-            font-size: clamp(10px, 1.6vh, 1.3vw);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            padding-bottom: 0.2vh;
-        }
-
-        .weather-icon-table {
-            width: clamp(14px, 2.5vh, 2.2vw);
-            height: clamp(14px, 2.5vh, 2.2vw);
-            filter: invert(1);
-            vertical-align: middle;
-        }
-
-        .wind-table-arrow {
-            font-size: clamp(14px, 2.5vh, 2.2vw) !important;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .wind-gust-row {
-            color: #888;
-            font-size: clamp(9px, 1.4vh, 1.1vw);
-        }
-
-        .material-symbols-outlined {
-            font-size: 1.1em;
-            vertical-align: middle;
-            display: inline-block;
-        }
 
         /* CONFIGURAÇÕES */
         .settings-overlay {
@@ -500,7 +405,7 @@
 <body>
     <div id="main-container" class="container">
         
-        <!-- BARRA SUPERIOR (NOVO LAYOUT) -->
+        <!-- BARRA SUPERIOR -->
         <div class="header-bar">
             <div class="header-left"></div>
             <div id="header-date-day" class="header-center">10/08/2026 • Segunda-feira</div>
@@ -511,164 +416,95 @@
             </div>
         </div>
 
-        <!-- ÁREA CENTRAL -->
-        <div class="top-section">
+        <!-- ÁREA CENTRAL (HOJE - AMANHÃ - RELÓGIO) -->
+        <div class="main-content">
             
-            <!-- PAINEL CLIMA (ESQUERDA) -->
-            <div class="right-panel">
-                <div class="weather-column">
-                    <!-- HOJE -->
-                    <div class="weather-card-half">
-                        <div class="weather-left-col">
-                            <div class="card-day-label">Hoje</div>
-                            <img id="weather-icon-today" class="weather-icon-large" src="" alt="Hoje">
-                            <div class="temp-display"><span id="temp-today">--</span>ºC</div>
-                            <div class="temp-range-block">
-                                <span class="temp-min-val"><b id="temp-min-today">--</b>ºC</span>
-                                <span class="temp-max-val"><b id="temp-max-today">--</b>ºC</span>
-                            </div>
+            <!-- HOJE -->
+            <div class="weather-card-vertical">
+                <div class="card-day-label">Hoje</div>
+                <img id="weather-icon-today" class="weather-icon-large" src="" alt="Hoje">
+                <div class="temp-display"><span id="temp-today">--</span>ºC</div>
+                <div class="temp-range-block">
+                    <span class="temp-min-val"><b id="temp-min-today">--</b>ºC</span>
+                    <span class="temp-max-val"><b id="temp-max-today">--</b>ºC</span>
+                </div>
+                
+                <div class="metrics-block">
+                    <div class="metrics-wrapper">
+                        <div class="metric-item">
+                            <span class="material-symbols-outlined">rainy</span>
+                            <span id="rain-today">--%</span>
                         </div>
-                        <div class="weather-right-col">
-                            <div class="metric-item">
-                                <span class="material-symbols-outlined">rainy</span>
-                                <span id="rain-today">--%</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="material-symbols-outlined">water_drop</span>
-                                <span id="humidity-today">--%</span>
-                            </div>
-                            <div class="metric-item">
-                                <span id="wind-arrow-today" class="material-symbols-outlined wind-arrow-inline">navigation</span>
-                                <span id="wind-today">-- km/h</span>
-                            </div>
+                        <div class="metric-item">
+                            <span class="material-symbols-outlined">water_drop</span>
+                            <span id="humidity-today">--%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span id="wind-arrow-today" class="material-symbols-outlined wind-arrow-inline">navigation</span>
+                            <span id="wind-today">--</span>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- AMANHÃ -->
-                    <div class="weather-card-half">
-                        <div class="weather-left-col">
-                            <div class="card-day-label">Amanhã</div>
-                            <img id="weather-icon-tomorrow" class="weather-icon-large" src="" alt="Amanhã">
-                            <div class="temp-display"><span id="temp-tomorrow">--</span>ºC</div>
-                            <div class="temp-range-block">
-                                <span class="temp-min-val"><b id="temp-min-tomorrow">--</b>ºC</span>
-                                <span class="temp-max-val"><b id="temp-max-tomorrow">--</b>ºC</span>
-                            </div>
+            <!-- AMANHÃ -->
+            <div class="weather-card-vertical">
+                <div class="card-day-label">Amanhã</div>
+                <img id="weather-icon-tomorrow" class="weather-icon-large" src="" alt="Amanhã">
+                <div class="temp-display"><span id="temp-tomorrow">--</span>ºC</div>
+                <div class="temp-range-block">
+                    <span class="temp-min-val"><b id="temp-min-tomorrow">--</b>ºC</span>
+                    <span class="temp-max-val"><b id="temp-max-tomorrow">--</b>ºC</span>
+                </div>
+                
+                <div class="metrics-block">
+                    <div class="metrics-wrapper">
+                        <div class="metric-item">
+                            <span class="material-symbols-outlined">rainy</span>
+                            <span id="rain-tomorrow">--%</span>
                         </div>
-                        <div class="weather-right-col">
-                            <div class="metric-item">
-                                <span class="material-symbols-outlined">rainy</span>
-                                <span id="rain-tomorrow">--%</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="material-symbols-outlined">water_drop</span>
-                                <span id="humidity-tomorrow">--%</span>
-                            </div>
-                            <div class="metric-item">
-                                <span id="wind-arrow-tomorrow" class="material-symbols-outlined wind-arrow-inline">navigation</span>
-                                <span id="wind-tomorrow">-- km/h</span>
+                        <div class="metric-item">
+                            <span class="material-symbols-outlined">water_drop</span>
+                            <span id="humidity-tomorrow">--%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span id="wind-arrow-tomorrow" class="material-symbols-outlined wind-arrow-inline">navigation</span>
+                            <span id="wind-tomorrow">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RELÓGIO -->
+            <div class="clock-container">
+                <div class="clock-column">
+                    <div id="hours-card" class="flip-clock-card">
+                        <div class="card-face top top-back"><div class="card-text">00</div></div>
+                        <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
+                        <div class="card-face top top-front"><div class="card-text">00</div></div>
+                        <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
+                    </div>
+                </div>
+
+                <div class="clock-column">
+                    <div id="minutes-card" class="flip-clock-card">
+                        <div class="card-face top top-back"><div class="card-text">00</div></div>
+                        <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
+                        <div class="card-face top top-front"><div class="card-text">00</div></div>
+                        <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
+
+                        <div id="seconds-container" class="seconds-container hidden">
+                            <div id="seconds-card" class="seconds-card">
+                                <div class="card-face top top-back"><div class="card-text">00</div></div>
+                                <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
+                                <div class="card-face top top-front"><div class="card-text">00</div></div>
+                                <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PAINEL RELÓGIO (DIREITA) -->
-            <div class="left-panel">
-                <div class="clock-container">
-                    <div class="clock-column">
-                        <div id="hours-card" class="flip-clock-card">
-                            <div class="card-face top top-back"><div class="card-text">00</div></div>
-                            <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
-                            <div class="card-face top top-front"><div class="card-text">00</div></div>
-                            <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
-                        </div>
-                    </div>
-
-                    <div class="clock-column">
-                        <div id="minutes-card" class="flip-clock-card">
-                            <div class="card-face top top-back"><div class="card-text">00</div></div>
-                            <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
-                            <div class="card-face top top-front"><div class="card-text">00</div></div>
-                            <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
-
-                            <div id="seconds-container" class="seconds-container hidden">
-                                <div id="seconds-card" class="seconds-card">
-                                    <div class="card-face top top-back"><div class="card-text">00</div></div>
-                                    <div class="card-face bottom bottom-back"><div class="card-text">00</div></div>
-                                    <div class="card-face top top-front"><div class="card-text">00</div></div>
-                                    <div class="card-face bottom bottom-front"><div class="card-text">00</div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- BARRA INFERIOR (PRÓXIMAS 10 HORAS) -->
-        <div class="bottom-bar-panel">
-            <!-- CHUVA -->
-            <div class="hourly-section">
-                <span class="material-symbols-outlined hourly-section-icon">rainy</span>
-                <table class="weather-table">
-                    <thead>
-                        <tr>
-                            <th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th><th>6h</th><th>7h</th><th>8h</th><th>9h</th><th>10h</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="icons-row-10h">
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                            <td><img class="weather-icon-table" src="" alt=""></td>
-                        </tr>
-                        <tr class="rain-row-prob-10">
-                            <td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td><td>--%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- VENTO -->
-            <div class="hourly-section">
-                <span class="material-symbols-outlined hourly-section-icon">air</span>
-                <table class="weather-table">
-                    <thead>
-                        <tr>
-                            <th>1h</th><th>2h</th><th>3h</th><th>4h</th><th>5h</th><th>6h</th><th>7h</th><th>8h</th><th>9h</th><th>10h</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="wind-row-arrows-10">
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                            <td><span class="material-symbols-outlined wind-table-arrow">navigation</span></td>
-                        </tr>
-                        <tr class="wind-row-speed-10">
-                            <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
-                        </tr>
-                        <tr class="wind-row-gusts-10 wind-gust-row">
-                            <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -699,7 +535,7 @@
         let showSeconds = localStorage.getItem('showSeconds') === 'true';
 
         const API_URL = "https://api.open-meteo.com/v1/forecast";
-        const HOURLY_VARS = "temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m";
+        const HOURLY_VARS = "temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m";
         const DAILY_VARS = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant";
         const ICON_BASE_URL = "https://raw.githubusercontent.com/erikflowers/weather-icons/master/svg/";
 
@@ -847,56 +683,48 @@
                 const iconToday = getWeatherIconName(hourly.weather_code[curIdx]);
                 document.getElementById('weather-icon-today').src = `${ICON_BASE_URL}${iconToday}`;
                 document.getElementById('temp-today').textContent = Math.round(hourly.temperature_2m[curIdx]);
-                document.getElementById('humidity-today').textContent = `${hourly.relative_humidity_2m[curIdx]}%`;
-                document.getElementById('rain-today').textContent = `${hourly.precipitation_probability[curIdx]}%`;
-                document.getElementById('wind-today').textContent = `${Math.round(hourly.wind_speed_10m[curIdx])} km/h`;
+                document.getElementById('temp-max-today').textContent = Math.round(daily.temperature_2m_max[0]);
+                document.getElementById('temp-min-today').textContent = Math.round(daily.temperature_2m_min[0]);
                 
+                document.getElementById('rain-today').textContent = `${hourly.precipitation_probability[curIdx]}%`;
+                
+                // Umidade Hoje com regra de cor
+                const humToday = hourly.relative_humidity_2m[curIdx];
+                const humTodayEl = document.getElementById('humidity-today');
+                humTodayEl.textContent = `${humToday}%`;
+                humTodayEl.style.color = humToday < 85 ? '#7be1ff' : '';
+
+                // Vento Hoje
+                document.getElementById('wind-today').textContent = Math.round(hourly.wind_speed_10m[curIdx]);
                 const dirToday = (hourly.wind_direction_10m[curIdx] + 180) % 360;
                 document.getElementById('wind-arrow-today').style.transform = `rotate(${dirToday}deg)`;
 
-                document.getElementById('temp-max-today').textContent = Math.round(daily.temperature_2m_max[0]);
-                document.getElementById('temp-min-today').textContent = Math.round(daily.temperature_2m_min[0]);
 
                 // --- CLIMA AMANHÃ ---
                 const iconTomorrow = getWeatherIconName(daily.weather_code[1]);
                 document.getElementById('weather-icon-tomorrow').src = `${ICON_BASE_URL}${iconTomorrow}`;
                 const avgTomorrowTemp = Math.round((daily.temperature_2m_max[1] + daily.temperature_2m_min[1]) / 2);
                 document.getElementById('temp-tomorrow').textContent = avgTomorrowTemp;
+                document.getElementById('temp-max-tomorrow').textContent = Math.round(daily.temperature_2m_max[1]);
+                document.getElementById('temp-min-tomorrow').textContent = Math.round(daily.temperature_2m_min[1]);
                 
+                document.getElementById('rain-tomorrow').textContent = `${daily.precipitation_probability_max[1]}%`;
+                
+                // Umidade Amanhã com regra de cor
                 let tomorrowHumiditySum = 0;
                 for (let i = 24; i < 48; i++) {
                     tomorrowHumiditySum += hourly.relative_humidity_2m[i] || 0;
                 }
-                document.getElementById('humidity-tomorrow').textContent = `${Math.round(tomorrowHumiditySum / 24)}%`;
-                document.getElementById('rain-tomorrow').textContent = `${daily.precipitation_probability_max[1]}%`;
-                document.getElementById('wind-tomorrow').textContent = `${Math.round(daily.wind_speed_10m_max[1])} km/h`;
+                const humTomorrow = Math.round(tomorrowHumiditySum / 24);
+                const humTomorrowEl = document.getElementById('humidity-tomorrow');
+                humTomorrowEl.textContent = `${humTomorrow}%`;
+                humTomorrowEl.style.color = humTomorrow < 85 ? '#7be1ff' : '';
 
+                // Vento Amanhã
+                document.getElementById('wind-tomorrow').textContent = Math.round(daily.wind_speed_10m_max[1]);
                 const dirTomorrow = (daily.wind_direction_10m_dominant[1] + 180) % 360;
                 document.getElementById('wind-arrow-tomorrow').style.transform = `rotate(${dirTomorrow}deg)`;
 
-                document.getElementById('temp-max-tomorrow').textContent = Math.round(daily.temperature_2m_max[1]);
-                document.getElementById('temp-min-tomorrow').textContent = Math.round(daily.temperature_2m_min[1]);
-
-                // --- PRÓXIMAS 10 HORAS (BARRA INFERIOR) ---
-                const iconRows = document.querySelectorAll('.icons-row-10h img');
-                const rainCells10 = document.querySelectorAll('.rain-row-prob-10 td');
-                const arrows10 = document.querySelectorAll('.wind-row-arrows-10 .wind-table-arrow');
-                const speed10 = document.querySelectorAll('.wind-row-speed-10 td');
-                const gust10 = document.querySelectorAll('.wind-row-gusts-10 td');
-
-                for (let i = 0; i < 10; i++) {
-                    const idx = Math.min(curIdx + 1 + i, hourly.time.length - 1);
-                    
-                    if (iconRows[i]) iconRows[i].src = `${ICON_BASE_URL}${getWeatherIconName(hourly.weather_code[idx])}`;
-                    if (rainCells10[i]) rainCells10[i].textContent = `${hourly.precipitation_probability[idx]}%`;
-
-                    if (arrows10[i]) {
-                        const dir = (hourly.wind_direction_10m[idx] + 180) % 360;
-                        arrows10[i].style.transform = `rotate(${dir}deg)`;
-                    }
-                    if (speed10[i]) speed10[i].textContent = `${Math.round(hourly.wind_speed_10m[idx])}`;
-                    if (gust10[i]) gust10[i].textContent = `${Math.round(hourly.wind_gusts_10m[idx])}`;
-                }
 
             } catch (error) {
                 console.error("Error fetching weather data:", error);
