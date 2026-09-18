@@ -70,7 +70,7 @@
             flex-direction: row;
             flex: 1;
             width: 100%;
-            gap: 2vw;
+            gap: 1.5vw; 
             align-items: center;
             justify-content: center;
             min-height: 0;
@@ -82,31 +82,33 @@
         .weather-card-vertical {
             background: #1c1c1e;
             border-radius: 4vmin;
-            padding: 3vh 2vw;
+            padding: 2vh 1vw; /* padding lateral reduzido */
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
-            height: clamp(120px, 32vw, 62vh);
-            width: clamp(230px, 30vw, 48vh);
+            
+            /* MESMA ALTURA do relógio, LARGURA mais estreita e justa */
+            height: clamp(160px, 65vh, 450px);
+            width: clamp(110px, 16vw, 220px); 
         }
 
         .card-day-label {
-            font-size: clamp(16px, 3vh, 24px);
+            font-size: clamp(14px, 3.5vh, 20px);
             font-weight: 800;
             color: #b5b5b7;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .weather-icon-large {
-            width: clamp(50px, 7vw, 12vh);
-            height: clamp(50px, 7vw, 12vh);
+            width: clamp(40px, 10vh, 80px);
+            height: clamp(40px, 10vh, 80px);
             filter: invert(1);
         }
 
         .temp-display {
-            font-size: clamp(30px, 6vh, 5vw);
+            font-size: clamp(20px, 5.5vh, 40px);
             font-weight: 800;
             line-height: 1;
             color: #fff;
@@ -115,7 +117,7 @@
         .temp-range-block {
             display: flex;
             gap: 1vw;
-            font-size: clamp(14px, 2.5vh, 2vw);
+            font-size: clamp(12px, 2.5vh, 18px);
             font-weight: 700;
         }
 
@@ -127,14 +129,14 @@
             flex-direction: column;
             width: 100%;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
-            padding-top: 2.5vh;
+            padding-top: 1.5vh;
             align-items: center;
         }
 
         .metrics-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 1.5vh;
+            gap: 1vh;
             align-items: flex-start;
         }
 
@@ -142,7 +144,8 @@
             display: flex;
             align-items: center;
             gap: 0.4em;
-            font-size: clamp(30px, 6vh, 5vw);
+            /* Fonte adaptada para não vazar no card estreito, mas próxima à temperatura */
+            font-size: clamp(20px, 5vh, 38px);
             font-weight: 800;
             color: #ddd;
         }
@@ -162,7 +165,7 @@
         -------------------------------------------------- */
         .clock-container {
             display: flex;
-            gap: 2vw;
+            gap: 1.5vw;
             justify-content: center;
             align-items: center;
         }
@@ -176,13 +179,14 @@
 
         .flip-clock-card {
             position: relative;
-            width: clamp(120px, 32vw, 62vh);
-            height: clamp(120px, 32vw, 62vh);
+            /* LARGURA MAIOR que os cards de clima, MESMA ALTURA exata */
+            width: clamp(140px, 26vw, 360px);
+            height: clamp(160px, 65vh, 450px);
             background: #1c1c1e;
             border-radius: 4vmin;
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 800;
-            font-size: clamp(100px, 26vw, 52vh);
+            font-size: clamp(80px, 45vh, 280px); 
             line-height: 1;
             color: #b5b5b7;
             perspective: 1000px;
@@ -289,8 +293,8 @@
 
         .seconds-card {
             position: relative;
-            width: clamp(28px, 6vw, 11vh);
-            height: clamp(22px, 4.5vw, 9vh);
+            width: clamp(28px, 5vw, 11vh);
+            height: clamp(22px, 4vw, 9vh);
             background: #1c1c1e;
             border-top-left-radius: 1.5vmin;
             border-top-right-radius: 1.5vmin;
@@ -298,7 +302,7 @@
             border-bottom-right-radius: 4vmin;
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 800;
-            font-size: clamp(20px, 4vw, 8vh);
+            font-size: clamp(16px, 3.5vw, 7vh);
             line-height: 1;
             color: #b5b5b7;
             perspective: 500px;
